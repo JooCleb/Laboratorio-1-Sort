@@ -2,13 +2,11 @@
 #include <stdlib.h>
 
 #include "statistics.h"
+#include "generator.h"
 
 void clear_screen() {
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 void display_header() {
@@ -18,18 +16,21 @@ void display_header() {
 }
 
 int main() {
+    srand((unsigned int)time(NULL));
+
+    int *origin_vector = NULL;
+    int *vector_test = NULL;
     int option = 0;
     int size_n = 0;
 
     do {
-        clear_screen();
         display_header();
 
-        if (size_n > 0) {
-            printf(" ⚙️  size atual do vetor (N): %d elementos\n", size_n);
+        if (size_n > 0 && origin_vector != NULL) {
+            printf(" ⚙️  Status: Vetor de tamanho N = %d pronto!\n", size_n);
             printf("-----------------------------------------------------\n");
         } else {
-            printf(" ⚠️  Nenhum vetor configurado no momento.\n");
+            printf(" ⚠️ Status: Nenhum conjunto de dados gerado.\n");
             printf("-----------------------------------------------------\n");
         }
 
@@ -41,24 +42,53 @@ int main() {
         printf("  [5] Executar Shell Sort\n");
         printf("  [6] Executar Quick Sort\n");
         printf("  [7] Executar Heap Sort\n");
-        printf("  [8] Executar e comparar TODOS os algoritmos\n");
+        printf("  [8] Executar e comparar todos os algoritmos\n");
         printf("  [9] Encerrar o programa\n");
         printf("\n=====================================================\n");
-        printf(" Digite sua opção: ");
+        printf(" Digite uma opção: ");
         
         if (scanf("%d", &option) != 1) {
-            option = 0;
+            printf("\n❌ Opção inválida! Tente novamente.\n");
+            clear_screen();
+            continue;
         }
-
-        printf("\n");
 
         switch (option) {
             case 1:
-                printf(" [EM BREVE] Módulo de geração de dados...\n");
-                printf("\n Digite o size N desejado para testar o menu: ");
+                printf("\n--- ⚙️ Geração de Dados ---");
+                printf("\n Digite o tamanho do vetor (N): ");
                 scanf("%d", &size_n);
-                printf(" size alterado para %d!\n", size_n);
-                break;
+
+                if (size_n <= 0) {
+                    printf("❌ Tamanho invalido! Insira um valor maior que 0.\n");
+                    size_n = 0;
+                    break;
+                }
+
+                origin_vector = (int*) realloc(origin_vector, size_n * sizeof(int));
+                vector_test = (int*) realloc(vector_test, size_n * sizeof(int));
+
+                if (origin_vector == NULL || vector_test == NULL) {
+                    printf("❌ Erro ao alocar memória!\n");
+                    exit(1);
+                }
+
+                int generation_type = 0;
+                printf("\nEscolha o padrão dos dados:\n");
+                printf("  [1] Dados Aleatórios\n");
+                printf("  [2] Dados Previamente Ordenados\n");
+                printf("  [3] Dados em Ordem Inversa\n");
+                printf("  [4] Dados Parcialmente Ordenados\n");
+                printf(" Digite uma opção: ");
+                scanf("%d", &generation_type);
+
+                switch (generation_type) {
+                    case 1:
+                         generate_random(origin_vector, size_n);
+                         printf("\n ✅ Vetor aleatório gerado com sucesso!\n");
+                         break;
+
+                }
 
             case 2:
                 printf(" [EM BREVE] Visualização do vetor...\n");
