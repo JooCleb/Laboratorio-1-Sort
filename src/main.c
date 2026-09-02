@@ -54,8 +54,8 @@ int main() {
         }
 
         switch (option) {
-            case 1:
-                printf("\n--- ⚙️ Geração de Dados ---");
+            case 1: {
+                printf("\n--- ⚙️ Geração de Dados ---\n");
                 printf("\n Digite o tamanho do vetor (N): ");
                 scanf("%d", &size_n);
 
@@ -87,53 +87,72 @@ int main() {
                          generate_random(origin_vector, size_n);
                          printf("\n ✅ Vetor aleatório gerado com sucesso!\n");
                          break;
-
+                    case 2: 
+                         generate_random(origin_vector, size_n);
+                         printf("\n ✅ Vetor ordenado gerado com sucesso!\n");
+                         break;
+                    case 3:
+                         generate_inverse(origin_vector, size_n);
+                         printf("\n ✅ Vetor inverso gerado com sucesso!\n");
+                         break;
+                    case 4:
+                         generate_partially_ordered(origin_vector, size_n);
+                         printf("\n ✅ Vetor aleatório gerado com sucesso!\n");
+                         break;
+                    default:
+                         printf("\n ❌ Opção inválida! Gerando valor aleatório por padrão.\n");
+                         generate_random(origin_vector, size_n);
+                         break;
                 }
+            break;
+         }
 
-            case 2:
-                printf(" [EM BREVE] Visualização do vetor...\n");
-                break;
+        case 2:
+            if (origin_vector == NULL || size_n <= 0) {
+                printf("\n--- ⚠️ Nenhum dado foi gerado ainda. Escolha a opção 1 primeiro!\n");
+            } else {
+                printf("\n--- ⚙️ Conteúdo de Vetor Original ---\n");
+                display_vector(origin_vector, size_n);
+            }
+            break;
 
-            case 3:
-                printf(" [EM BREVE] Executando Selection Sort...\n");
-                break;
+        case 3:
+            printf(" [EM BREVE] Executando Selection Sort...\n");
+            break;
 
-            case 4:
-                printf(" [EM BREVE] Executando Insertion Sort...\n");
-                break;
+        case 4:
+            printf(" [EM BREVE] Executando Insertion Sort...\n");
+            break;
 
-            case 5:
-                printf(" [EM BREVE] Executando Shell Sort...\n");
-                break;
+        case 5:
+            printf(" [EM BREVE] Executando Shell Sort...\n");
+            break;
 
-            case 6:
-                printf(" [EM BREVE] Executando Quick Sort...\n");
-                break;
+        case 6:
+            printf(" [EM BREVE] Executando Quick Sort...\n");
+            break;
 
-            case 7:
-                printf(" [EM BREVE] Executando Heap Sort...\n");
-                break;
+        case 7:
+            printf(" [EM BREVE] Executando Heap Sort...\n");
+            break;
 
-            case 8:
-                printf(" [EM BREVE] Rodando benchmark completo...\n");
-                break;
+        case 8:
+            printf(" [EM BREVE] Rodando benchmark completo...\n");
+            break;
 
-            case 9:
-                printf(" 👋 Saindo do programa... Até logo!\n");
-                break;
+        case 9:
+            printf(" 👋 Saindo do programa... Até logo!\n");
+            break;
 
-            default:
-                printf(" ❌ Opção inválida! Tente novamente.\n");
-                break;
+        default:
+            printf(" ❌ Opção inválida! Tente novamente.\n");
+            break;
         }
 
-        if (option != 9) {
-            printf("\n Pressione ENTER para continuar...");
-            getchar(); 
-            getchar();
-        }
+    } while (option != 0);
 
-    } while (option != 9);
+    if (origin_vector) free(origin_vector);
+    if (vector_test) free(vector_test);
 
     return 0;
 }
